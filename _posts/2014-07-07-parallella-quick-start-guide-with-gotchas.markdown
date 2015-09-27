@@ -5,7 +5,7 @@ date: 2014-07-07 13:31
 comments: true
 categories: [ High Performance Computing, IoT, Parallella ]
 ---
-{% include image.html img="images/parallella_screenshot.png" title="Parallella screenshot, 1080p." caption="Parallella screenshot, 1080p." %} 
+{% include image.html img="images/parallella_screenshot.png" caption="Parallella screenshot, 1080p." %} 
 
 Parallella is a single-board supercomputer smaller than a deck of cards. While today’s fastest laptops contain four processor cores, Parallella has _eighteen_ (2 [ARM](http://arm.com/) cores plus an [Epiphany](http://www.adapteva.com/epiphanyiii/) chip with 16 [RISC](http://en.wikipedia.org/wiki/Reduced_instruction_set_computing) cores). The maker of Parallella, [Adapteva](http://adapteva.com), is on a mission to democratize parallel computing. The company's tag line is _Supercomputing for Everyone_.
 <!--more-->
@@ -31,7 +31,9 @@ Adapteva sells an accessories kit containing an SD card, power adapter, micro-HD
 Since you're experimenting with Parallella, we can assume that you are an advanced user. Your computer is already backed up, or you're running these steps on a test machine. And you know [the power and pitfalls of sudo](/sudo-disclaimer/). Technology evolves rapidly, and everything you read here could change by the time you read it.
 
 ###Comparison with Raspberry Pi or Beaglebone Black
-{% imgcap right /images/parallella_fan.jpg Bits get hot. Use a fan. %}
+
+{% include image.html img="images/parallella_fan.jpg" caption="Bits get hot. Use a fan." %} 
+
 How does the Parallella compare with other single-board computers, like the [Raspberry Pi](/blog/2012/12/03/ruby-on-raspberry-pi/) or [Beaglebone Black](/blog/2014/01/02/beaglebone-black-ubuntu-part-1/)? The first difference noticed at boot-time: Parallella runs hot! So hot, in fact, that the unit comes with a heat sink and the recommendation to add a fan. I’ve never needed a fan with a Pi or a ‘Bone.
 
 Of course, the Parallella runs hotter because it has more processing power packed tightly together in limited space. Since Parallella is designed to run tasks in parallel, we can expect certain programs to perform faster than they would on the Pi or 'Bone. Future posts will explore Parallella's performance using languages designed for concurrency, languages like [Go](/blog/2013/06/22/preparing-for-parallella-64-cores-installing-go-on-mac-os-x/) and [Rubinius](/blog/2014/02/06/installing-rubinius-using-rvm/). Now, let’s get started with Parallella.
@@ -104,7 +106,7 @@ The `dd` command takes a _long_ time to run, over 56 minutes on my machine. Here
 The Mac section of the official Parallella guide recommends a block size of size of 1 megabyte, while the Linux instructions recommend 64 kilobytes (the option `bs=64k` in the `dd` command). I initially used `bs=1m` on my Mac, and I ran into problems. When I used `bs=64k`, everything worked fine. Note that I eventually traced my problem to something other than block size (details below) but since the 64k setting still works, I've left it intact. If I find out why Linux and OS X are using different block sizes, I'll post the information here.
 
 ###Checking dd Progress
-{% imgcap middle /images/dd_progress.png Activity Monitor %}
+{% include image.html img="images/dd_progress.png" caption="Activity Monitor" %} 
 
 Waiting an hour for the `dd` command to run can be disconcerting because the machine does not give any feedback on progress. No gas gauge, spinning indicator, nothing. How do we know if the write process is working?
 
@@ -233,7 +235,8 @@ drwxrwxrwx  1 rth   staff      512 Jul  6 12:11 .fseventsd
 
 ``` 
 
-{% imgcap right /images/eject_boot.png Eject the SD card. %}
+{% include image.html img="images/eject_boot.png" caption="Eject the SD card." %} 
+
 ###Eject the SD Card, Insert in Parallella
 Now you're ready to eject the SD card from the Mac and insert it in the Parallella. Plug in the HDMI cable, keyboard, mouse, and Ethernet connection. Power up the Parallella, and welcome to the next _gotcha_.
 
