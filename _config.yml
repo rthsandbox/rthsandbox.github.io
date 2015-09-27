@@ -3,7 +3,7 @@ title: sandbox.RayHightower.com
 email: rth+sandbox@wisdomgroup.com
 description: This is a test Jekyll site. I am converting from Octopress to Jekyll, and this sandbox will let me try things out without disrupting my main repo. Do not be alarmed because this is only a test.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "" # the base hostname & protocol for your site
+url: "/" # the base hostname & protocol for your site
 twitter_username: rayhightower
 github_username:  rthsandbox
 
