@@ -54,7 +54,7 @@ Note: You might need different files depending on the current date (Parallella s
 ###Burn the SD Card
 Insert your SD card into your Mac's SD card reader, and use the Mac OS X `diskutil list` command to determine the designation of the SD card. If you use portable hard drives with your primary machine, the SD card designation could change from time to time, so it's important to perform this step each time you burn a card.
 
-{% highlight bash %}
+~~~ bash
 
 $ diskutil list
 /dev/disk0
@@ -70,7 +70,8 @@ $ diskutil list
 
 $  
 
-{% endhighlight %}
+~~~
+
 
 From this `diskutil` report, we can see that we want to burn the SD image to `/dev/disk1`. The other device is the hard drive for my primary machine. Burning the wrong device means destroying data. 
 
