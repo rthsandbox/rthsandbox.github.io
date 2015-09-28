@@ -14,6 +14,7 @@ Everything in this post is based on the [official quick start guide created by t
 {% include image.html img="images/parallella.jpg" title="Parallella. 18 cores on a tiny board." caption="Parallella. 18 cores on a tiny board." %} 
 
 ###Tools Required
+
 You will need the following items in order to burn an SD card for your
 Parallella:
 
@@ -28,6 +29,7 @@ image and related files.
 Adapteva sells an accessories kit containing an SD card, power adapter, micro-HDMI to HDMI cable, and USB-to-micro-USB adapter. Unless you already have these items, buying the kit may save you time.
 
 ###These Steps Could Break Your Primary Machine
+
 Since you're experimenting with Parallella, we can assume that you are an advanced user. Your computer is already backed up, or you're running these steps on a test machine. And you know [the power and pitfalls of sudo](/sudo-disclaimer/). Technology evolves rapidly, and everything you read here could change by the time you read it.
 
 ###Comparison with Raspberry Pi or Beaglebone Black
@@ -39,6 +41,7 @@ How does the Parallella compare with other single-board computers, like the [Ras
 Of course, the Parallella runs hotter because it has more processing power packed tightly together in limited space. Since Parallella is designed to run tasks in parallel, we can expect certain programs to perform faster than they would on the Pi or 'Bone. Future posts will explore Parallella's performance using languages designed for concurrency, languages like [Go](/blog/2013/06/22/preparing-for-parallella-64-cores-installing-go-on-mac-os-x/) and [Rubinius](/blog/2014/02/06/installing-rubinius-using-rvm/). Now, let’s get started with Parallella.
 
 ###Getting the Parallella OS
+
 Parallella runs a customized version of Ubuntu installed on a micro-SD card. Burning the SD card takes a long time, so it makes sense to start that process first.
 
 Download the files that you will need to burn onto the SD card. I'm running Mac OS X on my primary machine, and I'm configuring a Parallella-16 with a Zynq 7010 and an HDMI display. Therefore, the files needed for this configuration are:
@@ -52,6 +55,7 @@ Unzip the files and place them in a directory that's handy. You'll need them for
 Note: You might need different files depending on the current date (Parallella software is in a rapid state of flux) and your exact equipment. If your configuration is different, you can make the adjustments described in Parallella's official guide.
 
 ###Burn the SD Card
+
 Insert your SD card into your Mac's SD card reader, and use the Mac OS X `diskutil list` command to determine the designation of the SD card. If you use portable hard drives with your primary machine, the SD card designation could change from time to time, so it's important to perform this step each time you burn a card.
 
 ~~~ bash
@@ -104,9 +108,11 @@ The `dd` command takes a _long_ time to run, over 56 minutes on my machine. Here
 * `bs=` specifies the block size used for the destination file.
 
 ###About Block Size
+
 The Mac section of the official Parallella guide recommends a block size of size of 1 megabyte, while the Linux instructions recommend 64 kilobytes (the option `bs=64k` in the `dd` command). I initially used `bs=1m` on my Mac, and I ran into problems. When I used `bs=64k`, everything worked fine. Note that I eventually traced my problem to something other than block size (details below) but since the 64k setting still works, I've left it intact. If I find out why Linux and OS X are using different block sizes, I'll post the information here.
 
 ###Checking dd Progress
+
 {% include image.html img="images/dd_progress.png" caption="Activity Monitor" %} 
 
 Waiting an hour for the `dd` command to run can be disconcerting because the machine does not give any feedback on progress. No gas gauge, spinning indicator, nothing. How do we know if the write process is working?
@@ -128,6 +134,7 @@ $
 As you can see from the report, it took 3363.824531 seconds (just over 56 minutes) for `dd` to burn the Ubuntu image onto the SD card. That's a long time to wait with zero feedback. Activity Monitor will tell you what's going on.
 
 ###Confirm Partitions
+
 To confirm that the partitions have been created and that Ubuntu has been written to the SD card, use `diskutil list` again.
 
 ``` bash
@@ -154,6 +161,7 @@ As expected, `/dev/disk0` remains unchanged. We want it that way because that's 
 Next we need to copy some supporting files to the new `BOOT` partition.
 
 ###Copying Additional Files to the SD Card
+
 Now that Ubuntu resides on the SD card, it's time to add the files that support HDMI video and the FPGAs. Here's how.
 
 The additional files will need to be copied to `/BOOT` on the SD card. While it might make sense to reach the `BOOT` partition as `/dev/disk1`, you will actually reach it via `/Volumes/BOOT`.
@@ -182,6 +190,7 @@ drwxrwxrwx  1 rth   staff   512 Jul  5 23:44 .fseventsd
 ``` 
 
 ###Gotcha #1: The FPGA Bitstream File
+
 First, change into the directory where you stored the additional Parallella files, and copy the FPGA bitstream file to `/Volumes/BOOT`.
 
 ``` bash
@@ -201,6 +210,7 @@ First gotcha: I made the mistake of simply copying the `parallella_e16_hdmi_gpio
 Obvious in hindsight, but it took me awhile to track that one down!
 
 ###Copy the Last Two Files
+
 Two files were decompressed from `kernel-hdmi-default.tgz`: `devicetree.dtb` and `uImage`. Change into the directory where the files were decompressed, and copy them to `/Volumes/BOOT`.
 
 ``` bash
@@ -239,20 +249,24 @@ drwxrwxrwx  1 rth   staff      512 Jul  6 12:11 .fseventsd
 {% include image.html img="images/eject_boot.png" caption="Eject the SD card." %} 
 
 ###Eject the SD Card, Insert in Parallella
+
 Now you're ready to eject the SD card from the Mac and insert it in the Parallella. Plug in the HDMI cable, keyboard, mouse, and Ethernet connection. Power up the Parallella, and welcome to the next _gotcha_.
 
 ###Gotcha #2: Powered USB Required
+
 Parallella booted to a beautiful GUI, but the system would not respond to the keyboard or mouse. After swapping a few keyboard/mouse combinations, I finally tried a powered USB hub. The powered hub worked.
 
 Through trial and error I learned that the Parallella can handle a single keyboard plugged into the micro-USB port. However, if two devices are plugged in via USB, a powered hub is required. A passive USB hub will not work. A combination keyboard, one with both a keyboard and a trackpad, will also need a powered USB hub.
 
 ###Default Login Credentials
+
 Default login credentials for Parallella are...
 
 * username = linaro
 * password = linaro
 
 ###SSH, Vim, Git, etc.
+
 You can SSH into the Parallella from the network...
 
 ``` bash
@@ -292,7 +306,9 @@ linaro-nano:~>
 ``` 
 
 ###Scrot for Screenshots
-If you want to take a screenshot of the Parallella display, use `scrot`.  It comes with the Ubuntu installation. Type `scrot` at the command line and hit enter. Five seconds later, the entire screen will be captured and stored in a file called `[time stamp]_1920x1080_scrot.png` in the current directory.
+
+If you want to take a screenshot of the Parallella display, use `scrot`. It comes with the Ubuntu installation. Type `scrot` at the command line and hit enter. Five seconds later, the entire screen will be captured and stored in a file called `[time stamp]_1920x1080_scrot.png` in the current directory.
 
 ###Conclusion
+
 After waiting a year for Parallella to arrive, I'm excited to have the device up and running. Future posts will explore the "why?" behind parallel computing. Thanks Adapteva for helping to democratize supercomputing. Awesome times are ahead!
