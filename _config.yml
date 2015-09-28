@@ -9,5 +9,5 @@ github_username:  rthsandbox
 
 # Build settings
 markdown: kramdown
-  input: GFM
+#  input: GFM
 
